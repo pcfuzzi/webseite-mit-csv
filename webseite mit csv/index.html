@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Adriano Webpage mit CSV</title>
+  <script src="http://localhost:35729/livereload.js"></script>
+  <h1>Hallo das ist die eingabe die in CSV gespeichert wird</h1>
+</head>
+
+<body>
+  <!-- Der Inhalt Ihrer Webseite wird hier eingefügt -->
+</body>
+
+</html>
+
+<form id="input-form">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name"><br>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email"><br>
+
+  <label for="message">Nachricht:</label>
+  <textarea id="message" name="message"></textarea><br>
+
+  <input type="submit" value="Absenden">
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    // Event-Handler für das Absenden des Formulars
+    $("#input-form").submit(function (event) {
+      // Formularvalidierung
+      if ($("#name").val() == "" || $("#email").val() == "" || $("#message").val() == "") {
+        alert("Bitte füllen Sie alle Felder aus.");
+        event.preventDefault(); // Verhindern, dass das Formular abgesendet wird
+        return;
+      }
+
+      // CSV-Datei erstellen oder öffnen
+      var csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "Name,Email,Nachricht\n"; // CSV-Header
+
+      // Daten hinzufügen
+      csvContent += $("#name").val() + ",";
+      csvContent += $("#email").val() + ",";
+      csvContent += $("#message").val() + "\n";
+
+      // CSV-Datei herunterladen
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "input.csv");
+      document.body.appendChild(link);
+      link.click();
+    });
+  });
+</script>
+<style>
+  label {
+    display: inline-block;
+    width: 100px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 300px;
+    height: 100px;
+  }
+</style>
